@@ -30,7 +30,7 @@ public class connection {
 		static Connection getCon() throws ClassNotFoundException, SQLException {
 			 Class.forName("com.mysql.cj.jdbc.Driver");
 			 
-			Connection con= DriverManager.getConnection("jdbc:mysql://localhost:3306/bank","root","4BD19IS122");
+			Connection con= DriverManager.getConnection("jdbc:mysql://localhost:3306/bank","root","Veera@30");
 	  if(con!=null)
 		  return con;
 	  else
@@ -52,6 +52,25 @@ public class connection {
 			Matcher m=p.matcher(mob);
 			return m.matches();
 		}
+		
+		//E-Statement
+		void Estatement() throws ClassNotFoundException, SQLException {
+			  Connection con =getCon();
+			String query10="select * from transaction where acc_no=?";
+			PreparedStatement pst11= con.prepareStatement(query10);
+			pst11.setLong(1,acctblAccNo);
+			ResultSet rs= pst11.executeQuery();
+			
+			System.out.println("Transaction Statement: ");
+			
+			while(rs.next())
+			{
+				if(rs.getLong(2)==acctblAccNo )
+						System.out.println(rs.getDate(1)+"  "+ rs.getDouble(3)+"  "+rs.getString(4));
+		   }
+ }
+		
+		
 		
 	//registeration
 		public   void registerCutomer() throws ClassNotFoundException, SQLException
@@ -174,7 +193,7 @@ public class connection {
         System.out.println("Press 1 to Deposit Amount.");
         System.out.println("Press 2 to Withdraw Amount.");
         System.out.println("Press 3 to View Balance");
-       // System.out.println("Press 4 to View Statement");
+        System.out.println("Press 4 to View EStatement");
         System.out.println("Press any  Number to Exit");
         System.out.println(" ");
         
@@ -193,6 +212,11 @@ public class connection {
                 break;
             case 3:
             	ckeckBalance();
+            	System.out.println(" ");  
+                  menu();
+                break;
+            case 4:
+            	Estatement();
             	System.out.println(" ");  
                   menu();
                 break;
